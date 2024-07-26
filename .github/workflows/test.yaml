@@ -13,4 +13,4 @@ jobs:
       - name: Build code
         run: cmake --build build/
       - name: Run unit tests
-        run: cmake --test-dir build/
+        run: ctest --test-dir build/
