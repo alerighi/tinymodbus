@@ -1,8 +1,8 @@
 /**
  * \file tinymodbus.h
- * \brief Tiny Modbus - A small, header-only, portable and compliant 
- *      Modbus implementation, suitable for embedded systems. 
- * \copyright Copyright (c) 2024 
+ * \brief Tiny Modbus - A small, header-only, portable and compliant
+ *      Modbus implementation, suitable for embedded systems.
+ * \copyright Copyright (c) 2024
  * \author Alessandro Righi <alessandro.righi@alerighi.it>
  */
 
@@ -15,9 +15,9 @@
 
 /* constant definitions */
 
-/** 
+/**
  * Maximum number of addresses that the server can listen to.
- * This number can be increased or decreased. Consider that each 
+ * This number can be increased or decreased. Consider that each
  * address takes memory!
  */
 #define TMB_SERVER_MAX_ADDRESSES 10
@@ -35,10 +35,10 @@
 
 /* public types */
 
-/** 
+/**
  * \typedef tmb_error_t
- * \brief The error type returned by all Tiny Modbus functions. 
- *      Refer fo tmb_error enum for the various error codes. 
+ * \brief The error type returned by all Tiny Modbus functions.
+ *      Refer fo tmb_error enum for the various error codes.
  * \note For portability reasons this type does not refer to the enum
  */
 typedef int tmb_error_t;
@@ -54,10 +54,10 @@ enum tmb_error {
     /** Operation failed without a specific error cause */
     TMB_FAILURE = -1,
 
-    /** 
+    /**
      * Operation was ignored. Returning this codes from a callback
-     * causes no response (neither success or failure) to be sent to 
-     * the client. Useful when listening on any address 
+     * causes no response (neither success or failure) to be sent to
+     * the client. Useful when listening on any address
      */
     TMB_IGNORED = -2,
 
@@ -67,8 +67,8 @@ enum tmb_error {
     /** An invalid argument has be provided to a function */
     TMB_ERROR_INVALID_ARGUMENTS = -4,
 
-    /** The operation cannot be performed in the specified mode of operation 
-     * (i.e. requesting a client function when in server mode) 
+    /** The operation cannot be performed in the specified mode of operation
+     * (i.e. requesting a client function when in server mode)
      */
     TMB_ERROR_INVALID_MODE = -5,
 
@@ -92,7 +92,7 @@ typedef enum {
 } tmb_mode_t;
 
 /**
- * \typedef tmb_encapsulation_t 
+ * \typedef tmb_encapsulation_t
  * \brief Message encapsulation mode
  */
 typedef enum {
@@ -140,8 +140,8 @@ typedef struct {
 /**
  * \typedef tmb_handle_t
  * \brief An handle to the Tiny Modbus instance. This is here only
- *      to allow for static allocation of the handle. It must be 
- *      treated as a black-box. 
+ *      to allow for static allocation of the handle. It must be
+ *      treated as a black-box.
  */
 typedef struct {
     /** true if the current handle is valid (initialized) */
@@ -206,7 +206,7 @@ typedef enum {
  * \param handle the handle to initialize
  * \param mode the mode of operation (client or server)
  * \param encapsulation the encapsulation to be used
- * \param transport the transport to be used. The transport struct shall live for the 
+ * \param transport the transport to be used. The transport struct shall live for the
  *      whole duration of the handle
  * \returns TMB_SUCCESS if initialized successfully, otherwise TMB_INVALID_ARG
  */
@@ -216,8 +216,8 @@ tmb_error_t tmb_init(tmb_handle_t *handle, tmb_mode_t mode, tmb_encapsulation_t 
 /**
  * \brief Sets the callback to use for server communication
  * \param handle The Modbus handle to be used
- * \param address The address that this callbacks respond to. A Modbus 
- *      server can respond to more than one address, in this case call 
+ * \param address The address that this callbacks respond to. A Modbus
+ *      server can respond to more than one address, in this case call
  *      this function multiple times. Use TMB_ADDRESS_ANY for calling the
  *      callbacks for messages that arrive on any address.
  * \param callbacks The callback object. If NULL, removes the association
@@ -236,7 +236,7 @@ tmb_error_t tmb_server_run_iteration(tmb_handle_t *handle);
 /**
  * \brief Run the Modbus server forever, serving one request after another
  * \param handle the handle to the Modbus server
- * \return a failure code in case the server is unable to run. If no error, 
+ * \return a failure code in case the server is unable to run. If no error,
  *      this function runs forever thus TMB_SUCCESS is never returned.
  */
 tmb_error_t tmb_server_run_forever(tmb_handle_t *handle);
@@ -244,7 +244,7 @@ tmb_error_t tmb_server_run_forever(tmb_handle_t *handle);
 /**
  * \brief Returns a string representation of the provided error code
  * \param error the error code to convert
- * \returns a pointer to a static memory buffer containing the string 
+ * \returns a pointer to a static memory buffer containing the string
  *      representation of the error
  */
 const char *tmb_strerror(tmb_error_t error);
@@ -271,12 +271,12 @@ const char *tmb_strerror(tmb_error_t error);
 tmb_error_t tmb_init(tmb_handle_t *handle, tmb_mode_t mode, tmb_encapsulation_t encapsulation,
                      const tmb_transport_t *transport) {
     ERROR_CHECK(handle != NULL, TMB_ERROR_INVALID_ARGUMENTS);
+    memset(handle, 0, sizeof(tmb_handle_t));
+
     ERROR_CHECK(transport != NULL, TMB_ERROR_INVALID_ARGUMENTS);
     ERROR_CHECK(transport->read != NULL, TMB_ERROR_INVALID_ARGUMENTS);
     ERROR_CHECK(transport->write != NULL, TMB_ERROR_INVALID_ARGUMENTS);
     ERROR_CHECK(encapsulation != TMB_ENCAPSULATION_ASCII, TMB_ERROR_NOT_IMPLEMENTED);
-
-    memset(handle, 0, sizeof(tmb_handle_t));
 
     handle->mode = mode;
     handle->encapsulation = encapsulation;
