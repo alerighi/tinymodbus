@@ -159,6 +159,7 @@ typedef struct {
     union {
         /** client-specific state */
         struct {
+            uint8_t dummy;
         } client;
 
         /** server-specific state */
