@@ -2,10 +2,13 @@ name: Run unit tests
 on:
   push:
     branches:
-      - main
+      - master
 jobs:
   test:
-    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Run cmake
@@ -13,4 +16,4 @@ jobs:
       - name: Build code
         run: cmake --build build/
       - name: Run unit tests
-        run: ctest --test-dir build/ -V
+        run: cmake --test-dir build/
