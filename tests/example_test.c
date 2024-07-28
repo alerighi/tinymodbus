@@ -13,15 +13,21 @@ static void test_init(void **state) {
         .read = (void *)1,
         .write = (void *)1,
     };
+    uint8_t dummy_buffer[10];
 
-    assert_int_equal(tmb_init(&handle, TMB_MODE_CLIENT, TMB_ENCAPSULATION_RTU, &dummy_transport), TMB_SUCCESS);
+    assert_int_equal(tmb_init(&handle, TMB_MODE_CLIENT, TMB_ENCAPSULATION_RTU, dummy_buffer, sizeof(dummy_buffer),
+                              &dummy_transport),
+                     TMB_SUCCESS);
     assert_int_equal(handle.is_valid, true);
 }
 
 static void test_init_invalid_config(void **state) {
     tmb_handle_t handle;
+    uint8_t dummy_buffer[10];
 
-    assert_int_equal(tmb_init(&handle, TMB_MODE_CLIENT, TMB_ENCAPSULATION_RTU, NULL), TMB_ERROR_INVALID_ARGUMENTS);
+    assert_int_equal(tmb_init(&handle, TMB_MODE_CLIENT, TMB_ENCAPSULATION_RTU, dummy_buffer, sizeof(dummy_buffer),
+                              NULL),
+                     TMB_E_INVALID_ARGUMENTS);
     assert_int_equal(handle.is_valid, false);
 }
 

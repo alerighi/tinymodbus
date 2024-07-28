@@ -14,5 +14,11 @@
 		"editor.autoIndent": "advanced",
 		"diffEditor.ignoreTrimWhitespace": false,
 		"editor.formatOnSave": false
+	},
+	"files.associations": {
+		"__locale": "c",
+		"in.h": "c",
+		"__config": "c",
+		"getopt.h": "c"
 	}
 }
