@@ -4,4 +4,4 @@
 
 include_directories(PRIVATE ${CMAKE_SOURCE_DIR}/)
 
-add_executable(example_posix_tcpip example_posix_tcpip.c)
+add_executable(example_posix example_posix.c)

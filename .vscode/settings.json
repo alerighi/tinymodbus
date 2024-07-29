@@ -19,6 +19,7 @@
 		"__locale": "c",
 		"in.h": "c",
 		"__config": "c",
-		"getopt.h": "c"
+		"getopt.h": "c",
+		"locale": "c"
 	}
 }
